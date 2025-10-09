@@ -11,3 +11,8 @@ Instalar dependencias:
 ```bash
 uv sync
 ```
+
+Activar el venv:
+
+- En macOS/Linux: `source .venv/bin/activate`.
+- En Windows: `.venv\Scripts\activate`. 
