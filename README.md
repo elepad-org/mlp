@@ -1,2 +1,26 @@
-# mlp
-Implementación y análisis de una MLP para detectar patrones en una matriz 10x10. Trabajo Práctico de Inteligencia Artificial, materia de la UTN FRRe
+# Trabajo Páctico MLP
+
+Implementación de un MLP para detectar patrones en una matriz 10x10.
+Trabajo Práctico de Inteligencia Artificial, materia de la UTN FRRe.
+
+- [Enunciado](https://frre.cvg.utn.edu.ar/pluginfile.php/202733/mod_resource/content/1/TP2025%20-%20MLP.pdf).
+- [Tablero Kanban](https://trello.com/b/KvPLKgKd/tp-inteligencia-artificial).
+- [Repositorio](https://github.com/elepad-org/mlp).
+
+Integrantes:
+- Aldo Omar Andres.
+- Sixto Feliciano Arrejin.
+- Agustín Nicolás Bravo Pérez.
+- Tobias Alejandro Maciel Meister.
+- André Leandro San Lorenzo.
+
+## Arquitectura de Software
+
+Estructura del Repositorio:
+
+```yaml
+mlp/
+├── app/          # UI web para usar el modelo (TypeScript)
+├── model/        # Entrenamiento y evaluación del modelo (Python)
+└── README.md
+```
