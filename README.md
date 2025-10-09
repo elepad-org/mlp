@@ -8,6 +8,7 @@ Trabajo Práctico de Inteligencia Artificial, materia de la UTN FRRe.
 - [Repositorio](https://github.com/elepad-org/mlp).
 
 Integrantes:
+
 - Aldo Omar Andres.
 - Sixto Feliciano Arrejin.
 - Agustín Nicolás Bravo Pérez.
