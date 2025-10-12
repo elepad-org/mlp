@@ -1,6 +1,6 @@
 # Trabajo Páctico MLP
 
-Implementación de un _Multi-layer Perceptron_ para detectar patrones en una matriz 10x10.
+Implementación de un _Multilayer Perceptron_ para detectar patrones en una matriz 10x10.
 Trabajo Práctico de Inteligencia Artificial (UTN FRRe).
 
 - [Consigna](https://frre.cvg.utn.edu.ar/pluginfile.php/202733/mod_resource/content/1/TP2025%20-%20MLP.pdf).
