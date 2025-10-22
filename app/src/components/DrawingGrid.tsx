@@ -122,83 +122,95 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
 
   return (
     <div className="drawing-container">
-      {/* Pattern Generator Section */}
-      <div className="pattern-generator">
-        <h3>Generador de Patrones</h3>
-        <div className="generator-controls">
-          <div className="letter-selector">
-            <label>Letra base:</label>
-            <div className="letter-buttons">
-              {(['b', 'd', 'f'] as const).map((letter) => (
-                <button
-                  key={letter}
-                  className={`letter-btn ${selectedLetter === letter ? 'selected' : ''}`}
-                  onClick={() => setSelectedLetter(letter)}
-                >
-                  {letter.toUpperCase()}
-                </button>
-              ))}
+      <div className="horizontal-content">
+        {/* Left Side - Controls */}
+        <div className="controls-panel">
+          <h3>Controles</h3>
+          
+          {/* Pattern Generator */}
+          <div className="pattern-generator">
+            <h4>Generador de Patrones</h4>
+            <div className="letter-selector">
+              <label>Letra:</label>
+              <div className="letter-buttons">
+                {(['b', 'd', 'f'] as const).map((letter) => (
+                  <button
+                    key={letter}
+                    className={`letter-btn ${selectedLetter === letter ? 'selected' : ''}`}
+                    onClick={() => setSelectedLetter(letter)}
+                  >
+                    {letter.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="distortion-slider">
+              <label>Distorsión: {distortion}%</label>
+              <input
+                type="range"
+                min="0"
+                max="30"
+                value={distortion}
+                onChange={(e) => setDistortion(Number(e.target.value))}
+                className="slider"
+              />
+            </div>
+            
+            <button className="generate-btn" onClick={generatePattern}>
+              Generar Patrón
+            </button>
+          </div>
+
+          {/* Manual Drawing Controls */}
+          <div className="manual-controls">
+            <h4>Edición Manual</h4>
+            <div className="control-buttons">
+              <button 
+                className={`mode-btn ${drawMode === 'draw' ? 'active' : ''}`}
+                onClick={toggleDrawMode}
+              >
+                {drawMode === 'draw' ? 'Dibujar' : 'Borrar'}
+              </button>
+              <button className="clear-btn" onClick={clearGrid}>
+                Limpiar
+              </button>
             </div>
           </div>
-          
-          <div className="distortion-slider">
-            <label>Distorsión: {distortion}%</label>
-            <input
-              type="range"
-              min="0"
-              max="30"
-              value={distortion}
-              onChange={(e) => setDistortion(Number(e.target.value))}
-              className="slider"
-            />
-          </div>
-          
-          <button className="generate-btn" onClick={generatePattern}>
-            Generar Patrón
-          </button>
         </div>
-      </div>
 
-      {/* Manual Drawing Controls */}
-      <div className="controls">
-        <button 
-          className={`mode-btn ${drawMode === 'draw' ? 'active' : ''}`}
-          onClick={toggleDrawMode}
-        >
-          {drawMode === 'draw' ? 'Dibujar' : 'Borrar'}
-        </button>
-        <button className="clear-btn" onClick={clearGrid}>
-          Limpiar
-        </button>
-      </div>
-      
-      <div 
-        className="grid-container"
-        ref={gridRef}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-      >
-        {grid.map((row, rowIndex) => (
-          <div key={rowIndex} className="grid-row">
-            {row.map((cell, colIndex) => (
-              <div
-                key={`${rowIndex}-${colIndex}`}
-                className={`grid-cell ${cell === 1 ? 'filled' : 'empty'}`}
-                onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
-                onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
-                style={{
-                  userSelect: 'none',
-                  WebkitUserSelect: 'none',
-                }}
-              />
+        {/* Right Side - Grid */}
+        <div className="grid-panel">
+          <h3>Tablero de Dibujo</h3>
+          <div 
+            className="grid-container"
+            ref={gridRef}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {grid.map((row, rowIndex) => (
+              <div key={rowIndex} className="grid-row">
+                {row.map((cell, colIndex) => (
+                  <div
+                    key={`${rowIndex}-${colIndex}`}
+                    className={`grid-cell ${cell === 1 ? 'filled' : 'empty'}`}
+                    onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
+                    onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
+                    style={{
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                    }}
+                  />
+                ))}
+              </div>
             ))}
           </div>
-        ))}
-      </div>
-      
-      <div className="grid-info">
-        <p>Dibuja una letra: <strong>b</strong>, <strong>d</strong>, o <strong>f</strong></p>
-        <p className="tip">Mantén presionado y arrastra para dibujar</p>
+          
+          <div className="grid-info">
+            <p>Dibuja una letra: <strong>b</strong>, <strong>d</strong>, o <strong>f</strong></p>
+            <p className="tip">Mantén presionado y arrastra para dibujar</p>
+          </div>
+        </div>
       </div>
     </div>
   );

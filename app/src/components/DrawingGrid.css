@@ -1,8 +1,31 @@
 .drawing-container {
+  width: 100%;
+  height: 100%;
+}
+
+.horizontal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+  height: 100%;
+}
+
+.controls-panel,
+.grid-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.controls-panel h3,
+.grid-panel h3 {
+  color: var(--color-primary);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 var(--spacing-md) 0;
+  letter-spacing: -0.022em;
 }
 
 /* Pattern Generator Styles */
@@ -13,35 +36,52 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-md);
-  width: 100%;
-  max-width: 500px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: var(--spacing-lg);
 }
 
-.pattern-generator h3 {
-  margin: 0 0 var(--spacing-lg) 0;
-  font-size: 17px;
+.pattern-generator h4 {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-primary);
   text-align: center;
   letter-spacing: -0.022em;
 }
 
-.generator-controls {
+.manual-controls {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.manual-controls h4 {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-align: center;
+  letter-spacing: -0.022em;
+}
+
+.control-buttons {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm);
 }
 
 .letter-selector {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .letter-selector label {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-primary);
   letter-spacing: -0.022em;
@@ -54,8 +94,8 @@
 }
 
 .letter-btn {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: transparent;
@@ -87,10 +127,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .distortion-slider label {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-primary);
   letter-spacing: -0.022em;
@@ -148,6 +189,7 @@
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   letter-spacing: -0.022em;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .generate-btn:hover {
@@ -157,10 +199,25 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.controls {
-  display: flex;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+.generate-btn {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: -0.022em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.generate-btn:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .mode-btn,
@@ -172,15 +229,14 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   color: var(--color-primary);
-  min-width: 120px;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
   letter-spacing: -0.022em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -229,6 +285,8 @@
   cursor: crosshair;
   position: relative;
   overflow: hidden;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .grid-container::before {
@@ -295,12 +353,12 @@
 
 .grid-info p {
   margin: var(--spacing-xs) 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.47059;
 }
 
 .grid-info .tip {
-  font-size: 13px;
+  font-size: 12px;
   opacity: 0.8;
   font-weight: 400;
 }
@@ -311,27 +369,53 @@
 }
 
 /* Responsive design */
-@media (max-width: 640px) {
-  .drawing-container {
+@media (max-width: 1024px) {
+  .horizontal-content {
+    grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
   
-  .pattern-generator {
-    padding: var(--spacing-md);
+  .controls-panel h3,
+  .grid-panel h3 {
+    font-size: 18px;
   }
-  
-  .generator-controls {
+}
+
+@media (max-width: 640px) {
+  .horizontal-content {
     gap: var(--spacing-md);
   }
   
-  .letter-buttons {
-    justify-content: space-around;
+  .pattern-generator,
+  .manual-controls {
+    padding: var(--spacing-md);
+  }
+  
+  .controls-panel h3,
+  .grid-panel h3 {
+    font-size: 16px;
+  }
+  
+  .pattern-generator h4,
+  .manual-controls h4 {
+    font-size: 14px;
   }
   
   .letter-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     font-size: 16px;
+  }
+  
+  .control-buttons {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .mode-btn,
+  .clear-btn {
+    font-size: 13px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
   
   .grid-cell {
@@ -339,15 +423,8 @@
     height: 28px;
   }
   
-  .controls {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .mode-btn,
-  .clear-btn {
-    width: 100%;
-    max-width: 200px;
+  .generate-btn {
+    font-size: 14px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 }

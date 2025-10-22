@@ -23,14 +23,13 @@ function App() {
       </header>
       
       <main className="app-main">
-        <div className="content-grid">
+        <div className="horizontal-layout">
           <section className="drawing-section">
-            <h2>Zona de Dibujo</h2>
             <DrawingGrid onPatternChange={handlePatternChange} />
           </section>
           
           <section className="prediction-section">
-            <h2>Predicción del Modelo</h2>
+            <h2>Predicción</h2>
             <MLPPredictor pattern={currentPattern} />
           </section>
         </div>
