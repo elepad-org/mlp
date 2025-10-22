@@ -1,34 +1,48 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import DrawingGrid from "./components/DrawingGrid";
+import MLPPredictor from "./components/MLPPredictor";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [currentPattern, setCurrentPattern] = useState<number[][]>(
+    Array(10).fill(null).map(() => Array(10).fill(0))
+  );
+
+  const handlePatternChange = (pattern: number[][]) => {
+    setCurrentPattern(pattern);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <div className="app">
+      <header className="app-header">
+        <h1>MLP Letter Recognition</h1>
+        <p className="subtitle">
+          Dibuja una letra (<strong>b</strong>, <strong>d</strong>, o <strong>f</strong>) 
+          en la matriz 10×10 y deja que el modelo la identifique
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </header>
+      
+      <main className="app-main">
+        <div className="content-grid">
+          <section className="drawing-section">
+            <h2>Zona de Dibujo</h2>
+            <DrawingGrid onPatternChange={handlePatternChange} />
+          </section>
+          
+          <section className="prediction-section">
+            <h2>Predicción del Modelo</h2>
+            <MLPPredictor pattern={currentPattern} />
+          </section>
+        </div>
+      </main>
+      
+      <footer className="app-footer">
+        <p>
+          <strong>Trabajo Práctico MLP</strong> - Inteligencia Artificial (UTN FRRe)
+        </p>
+        <p className="team">Equipo Lambda</p>
+      </footer>
+    </div>
   );
 }
 
