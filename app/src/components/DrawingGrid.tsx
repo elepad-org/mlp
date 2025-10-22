@@ -45,8 +45,6 @@ const LETTER_PATTERNS = {
   ],
 };
 
-type LetterType = keyof typeof LETTER_PATTERNS;
-
 const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
   // Initialize 10x10 grid with all cells empty (0)
   const [grid, setGrid] = useState<number[][]>(() => 
