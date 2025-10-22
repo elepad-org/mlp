@@ -70,109 +70,31 @@
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-light);
+  animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.predicted-letter {
+.predicted-letter-simple {
   text-align: center;
-  margin-bottom: var(--spacing-lg);
 }
 
-.predicted-letter h3 {
-  margin-bottom: var(--spacing-md);
-  color: var(--color-primary);
-  font-size: 19px;
-  font-weight: 600;
+.predicted-letter-simple h3 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-secondary);
+  font-size: 17px;
+  font-weight: 500;
   letter-spacing: -0.022em;
 }
 
-.letter-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.letter {
-  font-size: 72px;
+.letter-display {
+  font-size: 120px;
   font-weight: 700;
   color: var(--color-primary);
   line-height: 1;
   letter-spacing: -0.05em;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-}
-
-.confidence {
-  font-size: 15px;
-  color: #30d158;
-  font-weight: 600;
-  background: rgba(48, 209, 88, 0.1);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 20px;
-  border: 1px solid rgba(48, 209, 88, 0.2);
-  letter-spacing: -0.022em;
-}
-
-.probabilities {
-  margin-top: var(--spacing-lg);
-}
-
-.probabilities h4 {
-  margin-bottom: var(--spacing-lg);
-  color: var(--color-primary);
-  font-size: 17px;
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: -0.022em;
-}
-
-.prob-bars {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.prob-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.prob-label {
-  font-weight: 600;
-  color: var(--color-primary);
-  min-width: 24px;
-  text-align: center;
-  font-size: 15px;
-  letter-spacing: -0.022em;
-}
-
-.prob-bar-container {
-  flex: 1;
-  height: 8px;
-  background: var(--color-border-light);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.prob-bar {
-  height: 100%;
-  background: rgba(29, 29, 31, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 4px;
-  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.prob-value {
-  font-size: 13px;
-  color: var(--color-secondary);
-  font-weight: 400;
-  min-width: 40px;
-  text-align: right;
-  letter-spacing: -0.022em;
+  text-transform: uppercase;
+  margin: var(--spacing-lg) 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Animation for prediction result */
@@ -198,12 +120,8 @@
     max-width: none;
   }
   
-  .letter {
-    font-size: 60px;
-  }
-  
-  .prob-item {
-    gap: var(--spacing-sm);
+  .letter-display {
+    font-size: 96px;
   }
   
   .prediction-result {

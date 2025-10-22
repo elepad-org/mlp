@@ -6,53 +6,31 @@ interface MLPPredictorProps {
 }
 
 // Simulated MLP prediction function
-const simulateMLPPrediction = (pattern: number[][]): { letter: string; confidence: number; probabilities: { b: number; d: number; f: number } } => {
+const simulateMLPPrediction = (pattern: number[][]): { letter: string } => {
   // Convert 2D pattern to 1D array (same as the Python model expects)
   const flatPattern = pattern.flat();
   
   // Count filled pixels to add some basic logic
   const filledPixels = flatPattern.filter(pixel => pixel === 1).length;
   
-  // Simulate different predictions based on simple heuristics (just for demo)
-  let probabilities = { b: 0.33, d: 0.33, f: 0.34 };
+  // Simple heuristic-based prediction (just for demo)
+  let predictedLetter = 'b'; // default
   
   if (filledPixels === 0) {
-    // Empty pattern
-    probabilities = { b: 0.33, d: 0.33, f: 0.34 };
+    // Empty pattern - random choice
+    predictedLetter = ['b', 'd', 'f'][Math.floor(Math.random() * 3)];
   } else if (filledPixels < 15) {
     // Few pixels - more likely to be 'f'
-    probabilities = { b: 0.2, d: 0.25, f: 0.55 };
+    predictedLetter = Math.random() < 0.6 ? 'f' : (Math.random() < 0.5 ? 'b' : 'd');
   } else if (filledPixels > 25) {
     // Many pixels - more likely to be 'b'
-    probabilities = { b: 0.6, d: 0.25, f: 0.15 };
+    predictedLetter = Math.random() < 0.6 ? 'b' : (Math.random() < 0.5 ? 'd' : 'f');
   } else {
     // Medium pixels - more likely to be 'd'
-    probabilities = { b: 0.25, d: 0.55, f: 0.2 };
+    predictedLetter = Math.random() < 0.6 ? 'd' : (Math.random() < 0.5 ? 'b' : 'f');
   }
   
-  // Add some randomness to make it more realistic
-  const noise = (Math.random() - 0.5) * 0.3;
-  probabilities.b = Math.max(0.1, Math.min(0.9, probabilities.b + noise));
-  probabilities.d = Math.max(0.1, Math.min(0.9, probabilities.d + noise * 0.8));
-  probabilities.f = Math.max(0.1, Math.min(0.9, probabilities.f + noise * 0.6));
-  
-  // Normalize probabilities
-  const total = probabilities.b + probabilities.d + probabilities.f;
-  probabilities.b /= total;
-  probabilities.d /= total;
-  probabilities.f /= total;
-  
-  // Find the letter with highest probability
-  const maxProb = Math.max(probabilities.b, probabilities.d, probabilities.f);
-  let predictedLetter = 'b';
-  if (probabilities.d === maxProb) predictedLetter = 'd';
-  else if (probabilities.f === maxProb) predictedLetter = 'f';
-  
-  return {
-    letter: predictedLetter,
-    confidence: maxProb,
-    probabilities
-  };
+  return { letter: predictedLetter };
 };
 
 const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
@@ -63,7 +41,7 @@ const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
     setIsLoading(true);
     
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     const result = simulateMLPPrediction(pattern);
     setPrediction(result);
@@ -88,31 +66,10 @@ const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
       
       {prediction && !isLoading && (
         <div className="prediction-result">
-          <div className="predicted-letter">
-            <h3>Predicción:</h3>
-            <div className="letter-result">
-              <span className="letter">{prediction.letter.toUpperCase()}</span>
-              <span className="confidence">
-                {(prediction.confidence * 100).toFixed(1)}% confianza
-              </span>
-            </div>
-          </div>
-          
-          <div className="probabilities">
-            <h4>Probabilidades:</h4>
-            <div className="prob-bars">
-              {Object.entries(prediction.probabilities).map(([letter, prob]) => (
-                <div key={letter} className="prob-item">
-                  <span className="prob-label">{letter.toUpperCase()}</span>
-                  <div className="prob-bar-container">
-                    <div 
-                      className="prob-bar"
-                      style={{ width: `${prob * 100}%` }}
-                    />
-                  </div>
-                  <span className="prob-value">{(prob * 100).toFixed(1)}%</span>
-                </div>
-              ))}
+          <div className="predicted-letter-simple">
+            <h3>La letra es:</h3>
+            <div className="letter-display">
+              {prediction.letter.toUpperCase()}
             </div>
           </div>
         </div>
