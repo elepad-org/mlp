@@ -5,47 +5,58 @@ interface MLPPredictorProps {
   pattern: number[][];
 }
 
-// Simulated MLP prediction function
-const simulateMLPPrediction = (pattern: number[][]): { letter: string } => {
+interface PredictionResult {
+  letter: string;
+  probabilities: {
+    b: number;
+    d: number;
+    f: number;
+  };
+  confidence: number;
+}
+
+// API endpoint (change this to your backend URL)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+// Function to call the real MLP backend
+const predictWithMLP = async (pattern: number[][]): Promise<PredictionResult> => {
   // Convert 2D pattern to 1D array (same as the Python model expects)
   const flatPattern = pattern.flat();
   
-  // Count filled pixels to add some basic logic
-  const filledPixels = flatPattern.filter(pixel => pixel === 1).length;
-  
-  // Simple heuristic-based prediction (just for demo)
-  let predictedLetter = 'b'; // default
-  
-  if (filledPixels === 0) {
-    // Empty pattern - random choice
-    predictedLetter = ['b', 'd', 'f'][Math.floor(Math.random() * 3)];
-  } else if (filledPixels < 15) {
-    // Few pixels - more likely to be 'f'
-    predictedLetter = Math.random() < 0.6 ? 'f' : (Math.random() < 0.5 ? 'b' : 'd');
-  } else if (filledPixels > 25) {
-    // Many pixels - more likely to be 'b'
-    predictedLetter = Math.random() < 0.6 ? 'b' : (Math.random() < 0.5 ? 'd' : 'f');
-  } else {
-    // Medium pixels - more likely to be 'd'
-    predictedLetter = Math.random() < 0.6 ? 'd' : (Math.random() < 0.5 ? 'b' : 'f');
+  const response = await fetch(`${API_URL}/predict`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ pattern: flatPattern }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Prediction failed: ${response.statusText}`);
   }
-  
-  return { letter: predictedLetter };
+
+  return await response.json();
 };
 
 const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
-  const [prediction, setPrediction] = useState<ReturnType<typeof simulateMLPPrediction> | null>(null);
+  const [prediction, setPrediction] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handlePredict = async () => {
     setIsLoading(true);
+    setError(null);
     
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    const result = simulateMLPPrediction(pattern);
-    setPrediction(result);
-    setIsLoading(false);
+    try {
+      const result = await predictWithMLP(pattern);
+      setPrediction(result);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+      setError(errorMessage);
+      console.error('Prediction error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isPatternEmpty = pattern.every(row => row.every(cell => cell === 0));
@@ -64,13 +75,30 @@ const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
         )}
       </button>
       
-      {prediction && !isLoading && (
+      {error && (
+        <div className="error-message">
+          <p>❌ Error: {error}</p>
+          <p style={{ fontSize: '0.9em', marginTop: '0.5rem' }}>
+            Asegúrate de que el backend esté corriendo en {API_URL}
+          </p>
+        </div>
+      )}
+      
+      {prediction && !isLoading && !error && (
         <div className="prediction-result">
           <div className="predicted-letter-simple">
             <h3>La letra es:</h3>
             <div className="letter-display">
               {prediction.letter} 
-            </div> 
+            </div>
+            <div className="confidence-info">
+              <p>Confianza: {(prediction.confidence * 100).toFixed(1)}%</p>
+              <div className="probabilities">
+                <div>b: {(prediction.probabilities.b * 100).toFixed(1)}%</div>
+                <div>d: {(prediction.probabilities.d * 100).toFixed(1)}%</div>
+                <div>f: {(prediction.probabilities.f * 100).toFixed(1)}%</div>
+              </div>
+            </div>
           </div>
         </div>
       )}
