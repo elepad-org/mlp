@@ -116,10 +116,6 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
     onPatternChange?.(emptyGrid);
   };
 
-  const toggleDrawMode = () => {
-    setDrawMode(prev => prev === 'draw' ? 'erase' : 'draw');
-  };
-
   return (
     <div className="drawing-container">
       <div className="horizontal-content">
@@ -127,7 +123,7 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
         <div className="controls-panel">
           <h3>Controles</h3>
           
-          {/* Pattern Generator */}
+          {/* Main Controls */}
           <div className="pattern-generator">
             <h4>Generador de Patrones</h4>
             <div className="letter-selector">
@@ -160,20 +156,27 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
             <button className="generate-btn" onClick={generatePattern}>
               Generar Patrón
             </button>
-          </div>
 
-          {/* Manual Drawing Controls */}
-          <div className="manual-controls">
-            <h4>Edición Manual</h4>
-            <div className="control-buttons">
-              <button 
-                className={`mode-btn ${drawMode === 'draw' ? 'active' : ''}`}
-                onClick={toggleDrawMode}
-              >
-                {drawMode === 'draw' ? 'Dibujar' : 'Borrar'}
-              </button>
+            {/* Drawing Mode Selector */}
+            <div className="drawing-mode-section">
+              <div className="mode-selector">
+                <button 
+                  className={`mode-option ${drawMode === 'draw' ? 'active' : ''}`}
+                  onClick={() => setDrawMode('draw')}
+                >
+                  <span className="mode-icon">✏️</span>
+                  <span>Dibujar</span>
+                </button>
+                <button 
+                  className={`mode-option ${drawMode === 'erase' ? 'active' : ''}`}
+                  onClick={() => setDrawMode('erase')}
+                >
+                  <span className="mode-icon">🗑️</span>
+                  <span>Borrar</span>
+                </button>
+              </div>
               <button className="clear-btn" onClick={clearGrid}>
-                Limpiar
+                Limpiar Todo
               </button>
             </div>
           </div>
