@@ -222,6 +222,16 @@ async def list_models():
 
 
 # Run with: uvicorn api:app --reload --host 0.0.0.0 --port 8000
+# For Render deployment, it will use PORT environment variable
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    
+    # Render sets PORT env var, default to 8000 for local development
+    port = int(os.getenv("PORT", 8000))
+    
+    uvicorn.run(
+        app, 
+        host="0.0.0.0",  # Required by Render
+        port=port
+    )
