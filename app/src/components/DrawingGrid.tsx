@@ -127,7 +127,6 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
           <div className="pattern-generator">
             <h4>Generador de Patrones</h4>
             <div className="letter-selector">
-              <label>Letra:</label>
               <div className="letter-buttons">
                 {(['b', 'd', 'f'] as const).map((letter) => (
                   <button
@@ -135,7 +134,7 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
                     className={`letter-btn ${selectedLetter === letter ? 'selected' : ''}`}
                     onClick={() => setSelectedLetter(letter)}
                   >
-                    {letter.toUpperCase()}
+                    {letter}
                   </button>
                 ))}
               </div>
@@ -164,14 +163,12 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
                   className={`mode-option ${drawMode === 'draw' ? 'active' : ''}`}
                   onClick={() => setDrawMode('draw')}
                 >
-                  <span className="mode-icon">✏️</span>
                   <span>Dibujar</span>
                 </button>
                 <button 
                   className={`mode-option ${drawMode === 'erase' ? 'active' : ''}`}
                   onClick={() => setDrawMode('erase')}
                 >
-                  <span className="mode-icon">🗑️</span>
                   <span>Borrar</span>
                 </button>
               </div>

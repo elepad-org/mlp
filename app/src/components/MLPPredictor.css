@@ -92,7 +92,6 @@
   line-height: 1;
   letter-spacing: -0.05em;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-  text-transform: uppercase;
   margin: var(--spacing-lg) 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

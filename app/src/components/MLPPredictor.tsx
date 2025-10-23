@@ -69,8 +69,8 @@ const MLPPredictor: React.FC<MLPPredictorProps> = ({ pattern }) => {
           <div className="predicted-letter-simple">
             <h3>La letra es:</h3>
             <div className="letter-display">
-              {prediction.letter.toUpperCase()}
-            </div>
+              {prediction.letter} 
+            </div> 
           </div>
         </div>
       )}
