@@ -6,7 +6,7 @@ ready for production use with model saving/loading capabilities.
 
 import numpy as np
 import pandas as pd
-from typing import Literal, Dict, Tuple
+from typing import Literal, Dict
 import pickle
 from datetime import datetime
 from pathlib import Path
@@ -44,14 +44,14 @@ class MLP:
         self.momentum = momentum
         self.seed = seed
         self.rng = np.random.default_rng(seed)
-        
+
         # Training history
         self.history = {
             "train_losses": [],
             "val_losses": [],
             "epochs": 0,
         }
-        
+
         # Model metadata
         self.metadata = {
             "created_at": datetime.now().isoformat(),
@@ -113,9 +113,11 @@ class MLP:
     def get_activation_derivative(self):
         """Return the derivative of the activation function based on activation type."""
         if self.activation_type == "sigmoid":
+
             def sigmoid_derivative(x):
                 s = 1 / (1 + np.exp(-np.clip(x, -500, 500)))
                 return s * (1 - s)
+
             return sigmoid_derivative
         elif self.activation_type == "linear":
             return lambda x: np.ones_like(x)
@@ -234,7 +236,7 @@ class MLP:
         # Softmax to convert to probabilities
         exp_scores = np.exp(y_pred - np.max(y_pred))
         probabilities = exp_scores / np.sum(exp_scores)
-        
+
         return {
             "b": float(probabilities[0]),
             "d": float(probabilities[1]),
@@ -242,12 +244,12 @@ class MLP:
         }
 
     def train(
-        self, 
-        train_data: pd.DataFrame, 
-        val_data: pd.DataFrame, 
+        self,
+        train_data: pd.DataFrame,
+        val_data: pd.DataFrame,
         tolerance: float = 1e-6,
         max_epochs: int = 10000,
-        verbose: bool = True
+        verbose: bool = True,
     ) -> dict:
         """
         Train the MLP on a complete dataset using tolerance-based early stopping.
@@ -311,7 +313,9 @@ class MLP:
             if loss_change < tolerance:
                 if verbose:
                     print(" " + "¯" * 41 + " ")
-                    print(f"Stopped at epoch {epoch}: Loss change {loss_change:.2e} < tolerance={tolerance}")
+                    print(
+                        f"Stopped at epoch {epoch}: Loss change {loss_change:.2e} < tolerance={tolerance}"
+                    )
                 break
 
             prev_avg_loss = avg_loss
@@ -336,14 +340,14 @@ class MLP:
         """
         correct = 0
         total = len(test_data)
-        
+
         for i in range(total):
             sample = np.array(test_data.iloc[i, :100].values, dtype=np.float64)
             true_class = test_data.iloc[i, 100]
             predicted = self.classify(sample)
             if predicted == true_class:
                 correct += 1
-        
+
         accuracy = correct / total
         return {
             "accuracy": accuracy,
@@ -369,14 +373,14 @@ class MLP:
             "metadata": self.metadata,
             "history": self.history,
         }
-        
-        with open(filepath, 'wb') as f:
+
+        with open(filepath, "wb") as f:
             pickle.dump(model_data, f)
-        
+
         print(f"✅ Model saved to {filepath}")
 
     @classmethod
-    def load(cls, filepath: Path) -> 'MLP':
+    def load(cls, filepath: Path) -> "MLP":
         """
         Load a model from disk.
 
@@ -385,9 +389,9 @@ class MLP:
         Returns:
             Loaded MLP instance.
         """
-        with open(filepath, 'rb') as f:
+        with open(filepath, "rb") as f:
             model_data = pickle.load(f)
-        
+
         # Recreate model with saved hyperparameters
         hyperparams = model_data["hyperparameters"]
         model = cls(
@@ -396,12 +400,12 @@ class MLP:
             momentum=hyperparams["momentum"],
             seed=hyperparams["seed"],
         )
-        
+
         # Restore parameters and metadata
         model.params = model_data["params"]
         model.metadata = model_data["metadata"]
         model.history = model_data["history"]
-        
+
         return model
 
     def get_info(self) -> Dict:

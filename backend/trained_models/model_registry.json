@@ -9,7 +9,7 @@
         "activation_type": "sigmoid",
         "learning_rate": 0.1,
         "momentum": 0.1,
-        "tolerance": 1e-06
+        "tolerance": 1e-6
       },
       "dataset_info": {
         "n_samples": 1000,

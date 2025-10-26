@@ -106,11 +106,11 @@
     gap: var(--spacing-lg);
     min-height: auto;
   }
-  
+
   .app-main {
     padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
   }
-  
+
   .drawing-section,
   .prediction-section {
     min-height: auto;
@@ -121,17 +121,17 @@
   .app-header {
     padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
   }
-  
+
   .app-main {
     padding: var(--spacing-md) var(--spacing-md) var(--spacing-lg);
   }
-  
+
   .drawing-section,
   .prediction-section {
     padding: var(--spacing-md) var(--spacing-lg);
     min-height: auto;
   }
-  
+
   .drawing-section h2,
   .prediction-section h2 {
     font-size: 24px;

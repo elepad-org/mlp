@@ -1,16 +1,11 @@
-# Trabajo Práctico MLP
+# 🧠 Trabajo Páctico MLP
 
 Implementación de un _Multilayer Perceptron_ para detectar patrones en una matriz 10x10.
 Trabajo Práctico de Inteligencia Artificial (UTN FRRe).
 
-**Stack MLOps End-to-End:**
-- 🧠 **Backend**: Python + FastAPI + MLP custom
-- 🎨 **Frontend**: React + TypeScript + Vite
-- 📦 **Model Registry**: Versionado de modelos con metadata
-- 🚀 **Serving**: API REST con validación Pydantic
-
 - [Consigna](https://frre.cvg.utn.edu.ar/pluginfile.php/202733/mod_resource/content/1/TP2025%20-%20MLP.pdf).
 - [Tablero Kanban](https://trello.com/b/KvPLKgKd/tp-inteligencia-artificial).
+- [Notebook](https://colab.research.google.com/github/elepad-org/mlp/blob/main/model/notebook.ipynb).
 - [Repositorio](https://github.com/elepad-org/mlp).
 
 Integrantes del equipo Lambda:
@@ -20,6 +15,27 @@ Integrantes del equipo Lambda:
 - Agustín Nicolás **Bravo Pérez**.
 - Tobias Alejandro **Maciel Meister**.
 - André Leandro **San Lorenzo**.
+
+## 🧑‍💻 Desarrollo
+
+Estructura del Repositorio:
+
+```yaml
+mlp/
+├── model/        # Implementacion del modelo (Python)
+├── app/          # UI web (TypeScript)
+├── backend/      # API REST para servir el modelo (Python + FastAPI)
+└── README.md
+```
+
+El modelo será implementado, entrenado y validado con Python en `model/notebook.ipynb`.
+Esa notebook se puede abrir en [Google Colab](https://colab.research.google.com/github/elepad-org/mlp/blob/main/model/notebook.ipynb).
+Una vez terminado el desarrollo del modelo y la UI, se redactará un informe del trabajo acorde al formato de LNCS de Springer Verlag.
+
+Como experiencia adicional, se busca experimentar con herramientas MLOps y crear una aplicación para usuarios finales.
+El resto de este repositorio se dedica a ese objetivo extra.
+Se desarrollará una UI web con React + TypeScript para usar el modelo.
+Se creará un backend con Python para servir el modelo como una API REST.
 
 ## 🚀 Quick Start
 
@@ -38,8 +54,9 @@ uv run python src/train.py
 cd src && uv run python api.py
 ```
 
-El backend estará en: http://localhost:8000
-- Docs: http://localhost:8000/docs
+El backend estará en: [http://localhost:8000](http://localhost:8000)
+
+- Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ### 2. Frontend (React + TypeScript)
 
@@ -53,7 +70,7 @@ npm install
 npm run dev
 ```
 
-El frontend estará en: http://localhost:5173
+El frontend estará en: [http://localhost:5173](http://localhost:5173)
 
 ## 📁 Estructura del Repositorio
 
@@ -82,7 +99,14 @@ mlp/
 
 ## 🎯 Arquitectura End-to-End
 
-```
+**Stack MLOps End-to-End:**
+
+- 🧠 **Backend**: Python + FastAPI + MLP custom
+- 🎨 **Frontend**: React + TypeScript + Vite
+- 📦 **Model Registry**: Versionado de modelos con metadata
+- 🚀 **Serving**: API REST con validación Pydantic
+
+```text
 ┌─────────────────┐
 │   Frontend      │  React + TypeScript
 │  (Port 5173)    │  - DrawingGrid: Dibujar matriz 10x10
@@ -115,7 +139,8 @@ uv run python src/train.py
 ```
 
 **Output:**
-```
+
+```text
 🚀 TRAINING NEW MLP MODEL
 📊 Generating dataset with 1000 samples...
 🧠 Initializing MLP...
@@ -157,6 +182,7 @@ uv run python api.py
 ```
 
 **Endpoints disponibles:**
+
 - `POST /predict` - Predicción desde matriz 10x10
 - `GET /model/info` - Info del modelo en producción
 - `GET /models/list` - Lista todos los modelos
@@ -168,8 +194,8 @@ El componente `MLPPredictor.tsx` consume la API:
 
 ```typescript
 const response = await fetch(`${API_URL}/predict`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ pattern: flatPattern }),
 });
 

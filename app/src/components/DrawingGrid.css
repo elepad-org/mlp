@@ -267,13 +267,19 @@
 }
 
 .grid-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 49%, var(--color-border-light) 49%, var(--color-border-light) 51%, transparent 51%);
+  background: linear-gradient(
+    45deg,
+    transparent 49%,
+    var(--color-border-light) 49%,
+    var(--color-border-light) 51%,
+    transparent 51%
+  );
   background-size: 20px 20px;
   opacity: 0.3;
   pointer-events: none;
@@ -343,7 +349,7 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .controls-panel h3,
   .grid-panel h3 {
     font-size: 18px;
@@ -354,44 +360,44 @@
   .horizontal-content {
     gap: var(--spacing-md);
   }
-  
+
   .pattern-generator,
   .manual-controls {
     padding: var(--spacing-md);
   }
-  
+
   .controls-panel h3,
   .grid-panel h3 {
     font-size: 16px;
   }
-  
+
   .pattern-generator h4,
   .manual-controls h4 {
     font-size: 14px;
   }
-  
+
   .letter-btn {
     width: 36px;
     height: 36px;
     font-size: 16px;
   }
-  
+
   .control-buttons {
     flex-direction: column;
     gap: var(--spacing-xs);
   }
-  
+
   .mode-btn,
   .clear-btn {
     font-size: 13px;
     padding: var(--spacing-sm) var(--spacing-md);
   }
-  
+
   .grid-cell {
     width: 28px;
     height: 28px;
   }
-  
+
   .generate-btn {
     font-size: 14px;
     padding: var(--spacing-sm) var(--spacing-md);

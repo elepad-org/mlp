@@ -62,7 +62,7 @@ RNG = np.random.default_rng(SEED)
 def generate_sample(pattern: Literal["b", "d", "f"], noise: float = 0.0) -> np.ndarray:
     """
     Generates a 1D array based on a given pattern letter, with optional noise.
-    
+
     Args:
         pattern: One of 'b', 'd', or 'f'.
         noise: Proportion of pixels to flip (0-1).
@@ -84,7 +84,7 @@ def generate_dataset(n_samples: int) -> pd.DataFrame:
     """
     Generates a dataset of pattern samples.
     10% samples have zero noise, 90% have noise between 0.01 and 0.30.
-    
+
     Args:
         n_samples: Number of samples to generate.
     Returns:
@@ -113,7 +113,7 @@ def split_dataset(
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Splits dataset into training and validation sets.
-    
+
     Args:
         df: Dataset to split.
         validation_ratio: Proportion for validation set.
@@ -136,7 +136,7 @@ def load_model_registry() -> dict:
     """Load model registry from disk."""
     registry_path = get_model_registry_path()
     if registry_path.exists():
-        with open(registry_path, 'r') as f:
+        with open(registry_path, "r") as f:
             return json.load(f)
     return {"models": []}
 
@@ -145,7 +145,7 @@ def save_model_registry(registry: dict) -> None:
     """Save model registry to disk."""
     registry_path = get_model_registry_path()
     registry_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(registry_path, 'w') as f:
+    with open(registry_path, "w") as f:
         json.dump(registry, f, indent=2)
     print(f"📋 Registry updated at {registry_path}")
 
@@ -156,11 +156,11 @@ def register_model(
     accuracy: float,
     hyperparameters: dict,
     dataset_info: dict,
-    is_production: bool = False
+    is_production: bool = False,
 ) -> None:
     """
     Register a trained model in the model registry.
-    
+
     Args:
         model_path: Path to the saved model file.
         version: Model version string.
@@ -170,12 +170,12 @@ def register_model(
         is_production: Whether this is the production model.
     """
     registry = load_model_registry()
-    
+
     # Mark all other models as non-production if this is production
     if is_production:
         for model in registry["models"]:
             model["is_production"] = False
-    
+
     model_entry = {
         "version": version,
         "filename": model_path.name,
@@ -185,7 +185,7 @@ def register_model(
         "dataset_info": dataset_info,
         "is_production": is_production,
     }
-    
+
     registry["models"].append(model_entry)
     save_model_registry(registry)
 
@@ -202,7 +202,7 @@ def train_and_save_model(
 ) -> Path:
     """
     Train a new MLP model and save it with versioning.
-    
+
     Args:
         n_samples: Number of samples in dataset.
         validation_ratio: Proportion for validation.
@@ -218,48 +218,50 @@ def train_and_save_model(
     print("=" * 60)
     print("🚀 TRAINING NEW MLP MODEL")
     print("=" * 60)
-    
+
     # Generate dataset
     print(f"\n📊 Generating dataset with {n_samples} samples...")
     full_dataset = generate_dataset(n_samples)
     train_data, val_data = split_dataset(full_dataset, validation_ratio)
     print(f"   Train: {len(train_data)} samples | Validation: {len(val_data)} samples")
-    
+
     # Initialize and train model
-    print(f"\n🧠 Initializing MLP...")
+    print("\n🧠 Initializing MLP...")
     print(f"   Activation: {activation_type}")
     print(f"   Learning rate: {learning_rate}")
     print(f"   Momentum: {momentum}")
-    
+
     mlp = MLP(
         activation_type=activation_type,
         learning_rate=learning_rate,
         momentum=momentum,
         seed=SEED,
     )
-    
+
     print(f"\n🏋️  Training model (tolerance={tolerance})...")
     mlp.train(train_data, val_data, tolerance=tolerance, verbose=True)
-    
+
     # Evaluate
-    print(f"\n📈 Evaluating model...")
+    print("\n📈 Evaluating model...")
     eval_results = mlp.evaluate(val_data)
     accuracy = eval_results["accuracy"]
-    print(f"   Accuracy: {accuracy:.4f} ({eval_results['correct']}/{eval_results['total']})")
-    
+    print(
+        f"   Accuracy: {accuracy:.4f} ({eval_results['correct']}/{eval_results['total']})"
+    )
+
     # Generate version string
     if version is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         version = f"v1.0_{timestamp}_acc{accuracy:.3f}"
-    
+
     # Save model
     models_dir = Path(__file__).parent.parent / "trained_models"
     models_dir.mkdir(parents=True, exist_ok=True)
     model_path = models_dir / f"mlp_{version}.pkl"
-    
-    print(f"\n💾 Saving model...")
+
+    print("\n💾 Saving model...")
     mlp.save(model_path)
-    
+
     # Register in registry
     register_model(
         model_path=model_path,
@@ -279,33 +281,33 @@ def train_and_save_model(
         },
         is_production=is_production,
     )
-    
+
     print("\n" + "=" * 60)
     print("✅ MODEL TRAINING COMPLETE")
     print(f"   Version: {version}")
     print(f"   Accuracy: {accuracy:.4f}")
     print(f"   Production: {'Yes' if is_production else 'No'}")
     print("=" * 60)
-    
+
     return model_path
 
 
 def get_production_model() -> Optional[MLP]:
     """
     Load the current production model from registry.
-    
+
     Returns:
         Loaded MLP model or None if no production model exists.
     """
     registry = load_model_registry()
-    
+
     for model_entry in registry["models"]:
         if model_entry.get("is_production", False):
             models_dir = Path(__file__).parent.parent / "trained_models"
             model_path = models_dir / model_entry["filename"]
             if model_path.exists():
                 return MLP.load(model_path)
-    
+
     return None
 
 

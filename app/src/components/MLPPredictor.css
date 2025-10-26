@@ -28,13 +28,18 @@
 }
 
 .predict-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -91,7 +96,8 @@
   color: var(--color-primary);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
   margin: var(--spacing-lg) 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -163,11 +169,11 @@
     width: 100%;
     max-width: none;
   }
-  
+
   .letter-display {
     font-size: 96px;
   }
-  
+
   .prediction-result {
     padding: var(--spacing-lg);
   }

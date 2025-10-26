@@ -114,7 +114,8 @@ mlp = MLP(
 history = mlp.train(train_data, val_data, tolerance=1e-6)
 ```
 
-**Por qué**: 
+**Por qué**:
+
 - Seed fijo → reproducibilidad
 - Tolerance-based early stopping → evita overfitting
 - Momentum → convergencia suave
@@ -142,7 +143,8 @@ with open(filepath, 'wb') as f:
     pickle.dump(model_data, f)
 ```
 
-**Por qué**: 
+**Por qué**:
+
 - Pickle preserva estado completo
 - Metadata permite auditoría
 - History ayuda en debugging
@@ -165,7 +167,7 @@ with open(filepath, 'wb') as f:
         "activation_type": "sigmoid",
         "learning_rate": 0.1,
         "momentum": 0.1,
-        "tolerance": 1e-06
+        "tolerance": 1e-6
       },
       "dataset_info": {
         "n_samples": 1000,
@@ -190,6 +192,7 @@ with open(filepath, 'wb') as f:
 - `acc1.000`: Accuracy redondeado
 
 **Por qué**:
+
 - Timestamp → orden cronológico
 - Accuracy en nombre → quick comparison
 - Extensión `.pkl` → formato claro
@@ -208,6 +211,7 @@ def load_model_registry() -> dict:
 ```
 
 **Por qué**:
+
 - Centralización → single source of truth
 - Flag production → deployment claro
 - Funciones helper → abstracción
@@ -234,6 +238,7 @@ async def predict(request: PredictionRequest):
 ```
 
 **Características**:
+
 - ✅ Validación automática con Pydantic
 - ✅ Type hints para autocomplete
 - ✅ Error handling con HTTPException
@@ -281,6 +286,7 @@ def get_model() -> MLP:
 ```
 
 **Por qué**:
+
 - No carga modelo hasta primera petición
 - Singleton → una sola carga en memoria
 - Startup más rápido
@@ -349,7 +355,7 @@ VITE_API_URL=http://localhost:8000
 ```
 
 ```typescript
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 ```
 
 **Por qué**: Fácil cambio entre dev/staging/prod.
@@ -386,9 +392,9 @@ src/
 
 ```python
 def train(
-    self, 
-    train_data: pd.DataFrame, 
-    val_data: pd.DataFrame, 
+    self,
+    train_data: pd.DataFrame,
+    val_data: pd.DataFrame,
     tolerance: float = 1e-6
 ) -> dict:
 ```
@@ -400,7 +406,7 @@ def train(
 ```python
 class PredictionRequest(BaseModel):
     pattern: List[int] = Field(..., min_length=100, max_length=100)
-    
+
     @field_validator('pattern')
     def validate_pattern(cls, v):
         if not all(x in [0, 1] for x in v):
@@ -454,7 +460,7 @@ cat model/trained_models/model_registry.json
 # Terminal 1: Backend
 ./dev.sh backend
 
-# Terminal 2: Frontend  
+# Terminal 2: Frontend
 ./dev.sh frontend
 
 # Terminal 3: Testing
@@ -479,16 +485,19 @@ curl http://localhost:8000/model/info
 ## Próximos Pasos
 
 ### Corto Plazo
+
 - [ ] Unit tests para MLP
 - [ ] Integration tests para API
 - [ ] Logging estructurado (JSON)
 
 ### Mediano Plazo
+
 - [ ] Docker Compose
 - [ ] CI/CD con GitHub Actions
 - [ ] Métricas por clase (precision, recall)
 
 ### Largo Plazo
+
 - [ ] MLflow integration
 - [ ] Kubernetes deployment
 - [ ] Monitoring con Prometheus/Grafana

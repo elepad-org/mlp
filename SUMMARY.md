@@ -5,6 +5,7 @@
 ### Backend Python (MLOps-Ready)
 
 **Archivos creados:**
+
 - ✅ `model/src/mlp.py` - Clase MLP productionizada con métodos de saving/loading
 - ✅ `model/src/train.py` - Pipeline de entrenamiento con versionado automático
 - ✅ `model/src/api.py` - FastAPI backend con validación Pydantic
@@ -12,6 +13,7 @@
 - ✅ `model/trained_models/mlp_v1.0_*.pkl` - Modelo entrenado con 100% accuracy
 
 **Prácticas implementadas:**
+
 - ✅ Versionado de modelos con timestamps y métricas
 - ✅ Model Registry con metadata completa
 - ✅ Separación código/artefactos
@@ -24,11 +26,13 @@
 ### Frontend React + TypeScript
 
 **Archivos modificados:**
+
 - ✅ `app/src/components/MLPPredictor.tsx` - Integración con API real
 - ✅ `app/src/components/MLPPredictor.css` - Estilos para probabilidades y errores
 - ✅ `app/.env` - Variables de entorno para API URL
 
 **Características:**
+
 - ✅ HTTP requests al backend Python
 - ✅ Manejo de errores con mensajes claros
 - ✅ Display de probabilidades por clase
@@ -88,31 +92,38 @@ npm run dev
 ## 🎓 Conceptos MLOps Aplicados
 
 ### 1. Model Versioning
+
 Cada modelo guardado con:
+
 - Timestamp único
 - Métricas de performance
 - Hiperparámetros usados
 - Info del dataset
 
 ### 2. Model Registry
+
 JSON centralizado que registra:
+
 - Todos los modelos entrenados
 - Cuál está en producción
 - Metadata completa de cada versión
 
 ### 3. Serving con API REST
+
 - Endpoints estandarizados
 - Validación automática de inputs
 - Documentación OpenAPI generada
 - CORS para integración frontend
 
 ### 4. Separación de Concerns
+
 ```
 Experimentación → Código productionizado → Entrenamiento → Serving
   (notebook)         (mlp.py)             (train.py)     (api.py)
 ```
 
 ### 5. Reproducibilidad
+
 - Seeds fijos en generación y entrenamiento
 - Hiperparámetros guardados con modelo
 - Environment variables para config
@@ -179,12 +190,14 @@ mlp/
 ## 🎉 Logros
 
 ### Funcionalidad
+
 - ✅ Modelo MLP entrenado con alta precisión
 - ✅ Backend API funcionando y testeado
 - ✅ Frontend integrado haciendo predicciones reales
 - ✅ End-to-end pipeline completo
 
 ### Calidad de Código
+
 - ✅ Type hints en Python
 - ✅ TypeScript en frontend
 - ✅ Validación de inputs
@@ -192,6 +205,7 @@ mlp/
 - ✅ Documentación extensiva
 
 ### MLOps
+
 - ✅ Versionado profesional de modelos
 - ✅ Model registry implementado
 - ✅ API REST estandarizada
@@ -203,16 +217,19 @@ mlp/
 ## 🔮 Próximos Pasos Sugeridos
 
 ### Corto Plazo
+
 1. **Testing**: Unit tests para `mlp.py`, integration tests para `api.py`
 2. **Logging**: Reemplazar prints con logging estructurado
 3. **Monitoring**: Agregar métricas de latencia y throughput
 
 ### Mediano Plazo
+
 4. **Docker**: Containerizar backend con Dockerfile
 5. **CI/CD**: GitHub Actions para tests automáticos
 6. **Métricas**: Precision, Recall, F1-score por clase
 
 ### Largo Plazo
+
 7. **MLflow**: Experiment tracking y model registry avanzado
 8. **A/B Testing**: Comparar múltiples modelos en producción
 9. **Drift Detection**: Monitorear degradación del modelo
@@ -223,18 +240,21 @@ mlp/
 ## 💡 Lecciones Aprendadas
 
 ### Lo que funcionó bien
+
 - ✅ Estructura modular facilitó desarrollo
 - ✅ FastAPI genera docs automáticamente
 - ✅ Pydantic validation previene errores
 - ✅ Model registry simplifica deployment
 
 ### Decisiones de diseño
+
 - **Pickle over ONNX**: Simplicidad > portabilidad para este caso
 - **JSON Registry over DB**: Suficiente para escala pequeña
 - **Monorepo structure**: Backend + Frontend juntos facilita desarrollo
 - **uv over pip**: Velocidad y reproducibilidad
 
 ### Mejoras aplicadas vs notebook original
+
 - **Modularización**: De notebook a módulos Python
 - **Productionización**: Saving/loading de modelos
 - **Versionado**: Timestamps y registry
@@ -246,11 +266,13 @@ mlp/
 ## 📞 Soporte
 
 **Documentación**:
+
 - `README.md` - Quick start y ejemplos
 - `MLOPS_GUIDE.md` - Detalles técnicos completos
 - `model/README.md` - Backend específico
 
 **Testing**:
+
 ```bash
 ./dev.sh check    # Health check
 ./dev.sh test     # Test de predicción

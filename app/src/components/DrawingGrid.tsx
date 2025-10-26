@@ -1,5 +1,5 @@
-import React, { useState, useRef, useCallback } from 'react';
-import './DrawingGrid.css';
+import React, { useState, useRef, useCallback } from "react";
+import "./DrawingGrid.css";
 
 interface DrawingGridProps {
   onPatternChange?: (pattern: number[][]) => void;
@@ -47,59 +47,71 @@ const LETTER_PATTERNS = {
 
 const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
   // Initialize 10x10 grid with all cells empty (0)
-  const [grid, setGrid] = useState<number[][]>(() => 
-    Array(10).fill(null).map(() => Array(10).fill(0))
+  const [grid, setGrid] = useState<number[][]>(() =>
+    Array(10)
+      .fill(null)
+      .map(() => Array(10).fill(0)),
   );
-  
+
   const [isDrawing, setIsDrawing] = useState(false);
-  const [drawMode, setDrawMode] = useState<'draw' | 'erase'>('draw');
-  const [selectedLetter, setSelectedLetter] = useState<keyof typeof LETTER_PATTERNS>('b');
+  const [drawMode, setDrawMode] = useState<"draw" | "erase">("draw");
+  const [selectedLetter, setSelectedLetter] =
+    useState<keyof typeof LETTER_PATTERNS>("b");
   const [distortion, setDistortion] = useState(0);
   const gridRef = useRef<HTMLDivElement>(null);
 
   // Apply distortion to a pattern
-  const applyDistortion = (pattern: number[][], distortionPercent: number): number[][] => {
-    const distortedPattern = pattern.map(row => [...row]);
+  const applyDistortion = (
+    pattern: number[][],
+    distortionPercent: number,
+  ): number[][] => {
+    const distortedPattern = pattern.map((row) => [...row]);
     const totalCells = 100;
-    const cellsToFlip = Math.floor((distortionPercent / 100) * totalCells / 2);
-    
+    const cellsToFlip = Math.floor(
+      ((distortionPercent / 100) * totalCells) / 2,
+    );
+
     for (let i = 0; i < cellsToFlip; i++) {
       const row = Math.floor(Math.random() * 10);
       const col = Math.floor(Math.random() * 10);
       distortedPattern[row][col] = distortedPattern[row][col] === 1 ? 0 : 1;
     }
-    
+
     return distortedPattern;
   };
 
   const generatePattern = () => {
     const basePattern = LETTER_PATTERNS[selectedLetter];
-    const distortedPattern = distortion > 0 
-      ? applyDistortion(basePattern, distortion)
-      : basePattern.map(row => [...row]);
-    
+    const distortedPattern =
+      distortion > 0
+        ? applyDistortion(basePattern, distortion)
+        : basePattern.map((row) => [...row]);
+
     setGrid(distortedPattern);
     onPatternChange?.(distortedPattern);
   };
 
-  const updateGrid = useCallback((row: number, col: number, value: number) => {
-    setGrid(prevGrid => {
-      const newGrid = prevGrid.map(r => [...r]);
-      newGrid[row][col] = value;
-      onPatternChange?.(newGrid);
-      return newGrid;
-    });
-  }, [onPatternChange]);
+  const updateGrid = useCallback(
+    (row: number, col: number, value: number) => {
+      setGrid((prevGrid) => {
+        const newGrid = prevGrid.map((r) => [...r]);
+        newGrid[row][col] = value;
+        onPatternChange?.(newGrid);
+        return newGrid;
+      });
+    },
+    [onPatternChange],
+  );
 
   const handleMouseDown = (row: number, col: number) => {
     setIsDrawing(true);
-    const value = drawMode === 'draw' ? 1 : 0;
+    const value = drawMode === "draw" ? 1 : 0;
     updateGrid(row, col, value);
   };
 
   const handleMouseEnter = (row: number, col: number) => {
     if (isDrawing) {
-      const value = drawMode === 'draw' ? 1 : 0;
+      const value = drawMode === "draw" ? 1 : 0;
       updateGrid(row, col, value);
     }
   };
@@ -109,7 +121,9 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
   };
 
   const clearGrid = () => {
-    const emptyGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+    const emptyGrid = Array(10)
+      .fill(null)
+      .map(() => Array(10).fill(0));
     setGrid(emptyGrid);
     onPatternChange?.(emptyGrid);
   };
@@ -120,16 +134,16 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
         {/* Left Side - Controls */}
         <div className="controls-panel">
           <h3>Controles</h3>
-          
+
           {/* Main Controls */}
           <div className="pattern-generator">
             <h4>Generador de Patrones</h4>
             <div className="letter-selector">
               <div className="letter-buttons">
-                {(['b', 'd', 'f'] as const).map((letter) => (
+                {(["b", "d", "f"] as const).map((letter) => (
                   <button
                     key={letter}
-                    className={`letter-btn ${selectedLetter === letter ? 'selected' : ''}`}
+                    className={`letter-btn ${selectedLetter === letter ? "selected" : ""}`}
                     onClick={() => setSelectedLetter(letter)}
                   >
                     {letter}
@@ -137,7 +151,7 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="distortion-slider">
               <label>Distorsión: {distortion}%</label>
               <input
@@ -149,7 +163,7 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
                 className="slider"
               />
             </div>
-            
+
             <button className="generate-btn" onClick={generatePattern}>
               Generar Patrón
             </button>
@@ -157,15 +171,15 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
             {/* Drawing Mode Selector */}
             <div className="drawing-mode-section">
               <div className="mode-selector">
-                <button 
-                  className={`mode-option ${drawMode === 'draw' ? 'active' : ''}`}
-                  onClick={() => setDrawMode('draw')}
+                <button
+                  className={`mode-option ${drawMode === "draw" ? "active" : ""}`}
+                  onClick={() => setDrawMode("draw")}
                 >
                   <span>Dibujar</span>
                 </button>
-                <button 
-                  className={`mode-option ${drawMode === 'erase' ? 'active' : ''}`}
-                  onClick={() => setDrawMode('erase')}
+                <button
+                  className={`mode-option ${drawMode === "erase" ? "active" : ""}`}
+                  onClick={() => setDrawMode("erase")}
                 >
                   <span>Borrar</span>
                 </button>
@@ -180,7 +194,7 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
         {/* Right Side - Grid */}
         <div className="grid-panel">
           <h3>Tablero de Dibujo</h3>
-          <div 
+          <div
             className="grid-container"
             ref={gridRef}
             onMouseUp={handleMouseUp}
@@ -191,21 +205,24 @@ const DrawingGrid: React.FC<DrawingGridProps> = ({ onPatternChange }) => {
                 {row.map((cell, colIndex) => (
                   <div
                     key={`${rowIndex}-${colIndex}`}
-                    className={`grid-cell ${cell === 1 ? 'filled' : 'empty'}`}
+                    className={`grid-cell ${cell === 1 ? "filled" : "empty"}`}
                     onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
                     onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
                     style={{
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
+                      userSelect: "none",
+                      WebkitUserSelect: "none",
                     }}
                   />
                 ))}
               </div>
             ))}
           </div>
-          
+
           <div className="grid-info">
-            <p>Dibuja una letra: <strong>b</strong>, <strong>d</strong>, o <strong>f</strong></p>
+            <p>
+              Dibuja una letra: <strong>b</strong>, <strong>d</strong>, o{" "}
+              <strong>f</strong>
+            </p>
             <p className="tip">Mantén presionado y arrastra para dibujar</p>
           </div>
         </div>
