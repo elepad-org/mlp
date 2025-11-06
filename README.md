@@ -22,9 +22,9 @@ Estructura del Repositorio:
 
 ```yaml
 mlp/
-├── model/        # Implementacion del modelo (Python)
+├── model/        # Notebooks de experimentación (Python)
+├── backend/      # API REST + modelo entrenado (Python + FastAPI)
 ├── app/          # UI web (TypeScript)
-├── backend/      # API REST para servir el modelo (Python + FastAPI)
 └── README.md
 ```
 
@@ -42,7 +42,7 @@ Se creará un backend con Python para servir el modelo como una API REST.
 ### 1. Backend (Python + FastAPI)
 
 ```bash
-cd model
+cd backend
 
 # Instalar dependencias
 uv sync
@@ -83,7 +83,7 @@ mlp/
 │   │       └── MLPPredictor.tsx     # Componente de predicción
 │   └── package.json
 │
-├── model/                  # Backend Python + MLOps
+├── backend/                # Backend Python + MLOps
 │   ├── src/
 │   │   ├── mlp.py         # Clase MLP con training/prediction
 │   │   ├── train.py       # Script de entrenamiento versionado
@@ -91,7 +91,11 @@ mlp/
 │   ├── trained_models/     # Modelos guardados con versiones
 │   │   ├── mlp_v1.0_*.pkl
 │   │   └── model_registry.json
-│   ├── notebook.ipynb      # Experimentación original
+│   └── pyproject.toml
+│
+├── model/                  # Notebooks de experimentación
+│   ├── notebook.ipynb      # Desarrollo original del modelo
+│   ├── analysis.ipynb      # Análisis y grid search
 │   └── pyproject.toml
 │
 └── README.md
@@ -134,7 +138,7 @@ mlp/
 ### 1️⃣ Entrenamiento y Versionado
 
 ```bash
-cd model
+cd backend
 uv run python src/train.py
 ```
 
@@ -177,7 +181,7 @@ Cada modelo se registra con metadata completa:
 ### 3️⃣ Serving con FastAPI
 
 ```bash
-cd model/src
+cd backend/src
 uv run python api.py
 ```
 
