@@ -4,4 +4,4 @@
 node_modules
 dist
 __pycache__
-model/notebook.py
+.gradio
